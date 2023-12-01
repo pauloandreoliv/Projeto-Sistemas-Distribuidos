@@ -122,8 +122,19 @@ def update_items():
         if token and token['id'] == request.json['id_creator']:
             id = request.json['id']
             doc = item_ref.document(id).get()
-            doc["status"] = "encontrado"
-            item_ref.document(id).set(doc)
+            new_item = {
+                "id": doc["id"],
+                "id_creator": doc["id_creator"],
+                "cpf": doc["cpf"],
+                "contato": doc["contato"],
+                "nome": doc["nome"],
+                "endereco": doc["endereco"],
+                "img": doc["img"],
+                "nome": doc["inome"],
+                "data": doc["data"],
+                "status": "encontrado"
+            }
+            item_ref.document(id).set(new_item)
             return jsonify({"success": True}), 200
         else:
             return jsonify({"error": "Acesso negado. Token inválido ou expirado."}), 401

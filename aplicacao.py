@@ -20,6 +20,7 @@ def entrar():
 
 @app.route('/login', methods=["POST"])
 def login():
+    session.pop('token', None)
     data = {
         "id" : str(request.form["cpf"]),
         "cpf" : str(request.form["cpf"]),
