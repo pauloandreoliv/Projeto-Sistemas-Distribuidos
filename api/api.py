@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 from servico_autenticacao import gerar_token
 from servico_validador import validar_token
+import uuid
 
 app = Flask(__name__)
 
@@ -35,7 +36,8 @@ def get_user():
             all_id = [doc.to_dict() for doc in user_ref.stream()]
             return jsonify(all_id), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
         
 @app.route('/user', methods=['POST'])
 def create_user():
@@ -46,7 +48,8 @@ def create_user():
         user_ref.document(id).set(request_completa)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
 
 @app.route('/item', methods=['GET'])
 def get_items():
@@ -63,12 +66,16 @@ def create_items():
         authorization_header = request.headers.get('Authorization')
         token = validar_token(authorization_header)
         if token:
-            item_ref.document().set(request.json)
+            id = str(uuid.uuid4())
+            request_completa = request.json
+            request_completa["id"] = id
+            item_ref.document(id).set(request_completa)
             return jsonify({"success": True}), 200
         else:
             return jsonify({"error": "Acesso negado. Token inválido ou expirado."}), 401
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
 
 #Apenas administrador pode deletar item
 @app.route('/item', methods=['DELETE'])
@@ -84,7 +91,8 @@ def delete_items():
         else:
             return jsonify({"error": "Acesso negado. Token inválido ou expirado."}), 401
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
 
 #Apenas administrador pode criar administrador
 @app.route('/admin', methods=['POST'])
@@ -102,7 +110,8 @@ def create_admin():
         else:
             return jsonify({"error": "Acesso negado. Token inválido ou expirado."}), 401
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
 
 #Apenas quem criou o item pode atualizar seu status
 @app.route('/item', methods=['PUT'])
@@ -117,7 +126,8 @@ def update_items():
         else:
             return jsonify({"error": "Acesso negado. Token inválido ou expirado."}), 401
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -136,7 +146,8 @@ def login():
         else:
             return jsonify({"error": "Acesso negado. Dados inválidos."}), 401
     except Exception as e:
-        return f"An Error Occured: {e}"
+        erro = f"An Error Occured - {e}"
+        return jsonify({"error": erro}), 401
 
 if __name__ == "__main__":
     app.run()

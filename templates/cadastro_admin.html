@@ -4,19 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Cadastro admin</title>
 </head>
 <body>
 
-    <form action="{{url_for('logar')}}" method="POST">
-        <h2>Login</h2>
+    <form action="{{url_for('create_admin')}}" method="POST">
+        <h2>Cadastro admin</h2>
         <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" oninput="formatarCPF(this)">
+        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" oninput="formatarCPF(this)" required>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
 
-        <button type="submit">Entrar</button>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+
+        <button type="submit">Cadastrar</button>
     </form>
 
     <script>
@@ -53,12 +56,12 @@
             padding: 20px;
             border-radius: 2px;
             width: 400px;
-            height: 330px;
+            height: 350px;
             text-align: center;
         }
 
         input {
-            width: 100%;
+            width: 90%;
             height: 30px;
             margin: 10px 0px 20px 0px;
             padding: 10px;

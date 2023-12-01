@@ -1,8 +1,10 @@
 import requests
-data = {
-    "key1": "value1",
-    "key2": "value2"
-}
-response = requests.post("https://127.0.0.1/login", data=data)
+import json
+
+url = "http://api-sistemasdistribuidos.onrender.com/user"
+dados_json = {"id": "1235678", "cpf": "Exemplo", "senha": "25", "nome": "Exemplópolis"}
+headers = {"Content-Type": "application/json"}
+
+response = requests.post(url, json=dados_json, headers=headers)
 
 print(response.text)

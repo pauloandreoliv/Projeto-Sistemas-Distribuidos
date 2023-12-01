@@ -8,15 +8,18 @@
 </head>
 <body>
 
-    <form>
+    <form action="{{url_for('create_user')}}" method="POST">
         <h2>Cadastro</h2>
         <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" oninput="formatarCPF(this)">
+        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" oninput="formatarCPF(this)" required>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
 
-        <button type="button" onclick="cadastro()">Cadastrar</button>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+
+        <button type="submit">Cadastrar</button>
     </form>
 
     <script>
@@ -32,12 +35,6 @@
             } else if (campo.value.length >= 10) {
                 campo.value = campo.value.replace(/^(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
             }
-        }
-
-        function cadastro() {
-            var cpf = document.getElementById("cpf").value.replace(/\D/g, '');
-            var senha = document.getElementById("senha").value;
-            alert("CPF: " + cpf + "\nSenha: " + senha);
         }
     </script>
     <style>
@@ -59,12 +56,12 @@
             padding: 20px;
             border-radius: 2px;
             width: 400px;
-            height: 330px;
+            height: 350px;
             text-align: center;
         }
 
         input {
-            width: 100%;
+            width: 90%;
             height: 30px;
             margin: 10px 0px 20px 0px;
             padding: 10px;
