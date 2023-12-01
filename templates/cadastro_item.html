@@ -78,6 +78,11 @@
 
         <button type="submit">Cadastrar Item</button>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+  <script type="text/javascript">
+    $("#contato").mask("(00) 00000-0000");
+   </script>
     <script>
         function formatarCPF(campo) {
             campo.value = campo.value.replace(/\D/g, '');

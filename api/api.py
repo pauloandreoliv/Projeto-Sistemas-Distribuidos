@@ -85,7 +85,7 @@ def delete_items():
         token = validar_token(authorization_header)
 
         if token and token['cargo'] == "admin":
-                id = request.args.get('id')
+                id = request.json['id']
                 item_ref.document(id).delete()
                 return jsonify({"success": True}), 200
         else:
@@ -121,7 +121,9 @@ def update_items():
         token = validar_token(authorization_header)
         if token and token['id'] == request.json['id_creator']:
             id = request.json['id']
-            item_ref.document(id).set(request.json)
+            doc = item_ref.document(id).get()
+            doc["status"] = "encontrado"
+            item_ref.document(id).set(doc)
             return jsonify({"success": True}), 200
         else:
             return jsonify({"error": "Acesso negado. Token inválido ou expirado."}), 401

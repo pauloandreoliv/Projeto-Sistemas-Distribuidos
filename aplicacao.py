@@ -12,14 +12,14 @@ def index():
         itens = json.loads(return_request.text)
         return render_template("itens.html", itens=itens)
     else:
-        return f"A solicitação falhou com o código de status {return_request.status_code}"
+        return f"{return_request.status_code} : {return_request.text}"
 
 @app.route('/entrar')
 def entrar():
     return render_template("login.html")
 
-@app.route('/logar', methods=["POST"])
-def logar():
+@app.route('/login', methods=["POST"])
+def login():
     data = {
         "id" : str(request.form["cpf"]),
         "cpf" : str(request.form["cpf"]),
@@ -93,6 +93,52 @@ def create_item():
         return 'Cadastro de item realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
         return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/entrar'>Fazer login</a>"
+
+@app.route('/excluir_item')
+def excluir_item():
+    return_request = requests.get("https://api-sistemasdistribuidos.onrender.com/item")
+    if return_request.status_code == 200:
+        itens = json.loads(return_request.text)
+        return render_template("excluir_item.html", itens=itens)
+    else:
+        return f"{return_request.status_code} : {return_request.text}"
+
+@app.route('/delete_item', methods=["POST"])
+def delete_item():
+    headers = {"Authorization": session.get('token')}
+    linha_id = request.form.get('linha_id')
+    data = {
+        "id" : linha_id
+    }
+    return_request = requests.delete("https://api-sistemasdistribuidos.onrender.com/item", json=data, headers=headers)
+    if return_request.status_code == 200:
+        return excluir_item()
+    else:
+        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/'>Tela inicial</a>"
+
+@app.route('/atualizar_item')
+def atualizar_item():
+    return_request = requests.get("https://api-sistemasdistribuidos.onrender.com/item")
+    if return_request.status_code == 200:
+        itens = json.loads(return_request.text)
+        return render_template("atualizar_item.html", itens=itens)
+    else:
+        return f"{return_request.status_code} : {return_request.text}"
+
+@app.route('/update_item', methods=["POST"])
+def update_item():
+    headers = {"Authorization": session.get('token')}
+    linha_id = request.form.get('linha_id')
+    linha_id_creator = request.form.get('linha_id_creator')
+    data = {
+        "id" : linha_id,
+        "id_creator" : linha_id_creator
+    }
+    return_request = requests.put("https://api-sistemasdistribuidos.onrender.com/item", json=data, headers=headers)
+    if return_request.status_code == 200:
+        return atualizar_item()
+    else:
+        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/'>Tela inicial</a>"
 
 @app.route('/logout')
 def logout():

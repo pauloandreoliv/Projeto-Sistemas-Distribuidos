@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <form action="{{url_for('logar')}}" method="POST">
+    <form action="{{url_for('login')}}" method="POST">
         <h2>Login</h2>
         <label for="cpf">CPF:</label>
         <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="14" oninput="formatarCPF(this)">
@@ -17,6 +17,8 @@
         <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
 
         <button type="submit">Entrar</button>
+        <br><br>
+        <a href="/cadastrar">Cadastre-se</a>
     </form>
 
     <script>
@@ -53,7 +55,7 @@
             padding: 20px;
             border-radius: 2px;
             width: 400px;
-            height: 330px;
+            height: 360px;
             text-align: center;
         }
 
@@ -77,6 +79,11 @@
             padding-left: 0px;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
         }
     </style>
 </body>

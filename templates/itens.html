@@ -26,7 +26,7 @@
         }
 
         th {
-            background-color: #4caf50;
+            background-color: #446f46;
             color: white;
         }
 
@@ -50,8 +50,8 @@
     <a href="{{ url_for('cadastrar') }}"><button id="cadastrar" name="cadastrar" type="submit">Cadastrar</button></a>
     <a href="{{ url_for('cadastrar_admin') }}"><button id="cadastrar_admin" name="cadastrar_admin" type="submit">Cadastrar admin</button></a>
     <a href="{{ url_for('cadastrar_item') }}"><button id="cadastrar_item" name="cadastrar_item" type="submit">Cadastrar item</button></a>
-    <a href=""><button id="atualizar" name="atualizar" type="submit" style="background-color: #afac4c;">Atualizar item</button></a>
-    <a href=""><button id="excluir" name="excluir" type="submit" style="background-color: #af4c4c;">Excluir item</button></a>
+    <a href="{{ url_for('atualizar_item') }}"><button id="atualizar" name="atualizar" type="submit" style="background-color: #afac4c;">Atualizar item</button></a>
+    <a href="{{ url_for('excluir_item') }}"><button id="excluir" name="excluir" type="submit" style="background-color: #af4c4c;">Excluir item</button></a>
     <a href="{{ url_for('logout') }}"><button id="sair" name="sair" type="submit" style="background-color: #af4c4c;">Sair</button></a>
     <h2>Tabela de Itens</h2>
 
@@ -69,7 +69,11 @@
         </thead>
         <tbody>
             {%for item in itens%}
+            {%if item["status"] != "encontrado"%}
             <tr>
+            {%else%}
+            <tr style="background-color: #4caf50; color: white;">
+            {%endif%}
                 <td>{{item["id"]}}</td>
                 <td>{{item["nome"]}}</td>
                 <td>{{item["endereco"]}}</td>
