@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Este repositório contém o código-fonte para um projeto desenvolvido como parte da disciplina de Sistemas Distribuídos. O projeto consiste em um middleware de autenticação distribuída com validação de permissões, aplicado no contexto específico de "Achados e Perdidos". O objetivo é facilitar a gestão de itens perdidos e encontrados, garantindo a autenticidade e a autorização adequada para operações específicas.
+Este repositório contém o código-fonte para um projeto desenvolvido como parte da disciplina de Sistemas Distribuídos. O projeto consiste em um sistema de autenticação distribuída com validação de permissões, aplicado no contexto específico de "Achados e Perdidos". O objetivo é facilitar a gestão de itens perdidos e encontrados, garantindo a autenticidade e a autorização adequada para operações específicas. Embora a complexidade desse tipo de aplicação possa não requerer uma distribuição, foi realizada visando a aplicação prática dos conteúdos estudados ao longo da disciplina.
 
 ## Tecnologias Utilizadas
 
@@ -19,5 +19,6 @@ Este repositório contém o código-fonte para um projeto desenvolvido como part
 
 1. Certifique-se de ter o Python 3.11.0 instalado.
 2. Instale as dependências do projeto usando `pip install -r requirements.txt`.
-3. Inicie a api em `/api/api.py`
+3. Inicie o servidor da API em `/api/app.py`
+4. Inicie o servidor de autenticação em `/autenticacao/app.py`
 4. Execute o app.py para visualizar o front-end da aplicação.

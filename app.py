@@ -27,13 +27,12 @@ def login():
         "senha" : str(request.form["senha"])
     }
     return_request = requests.post("http://api-sistemasdistribuidos.onrender.com/login", json=data)
-
     if return_request.status_code == 200:
-        token = json.loads(return_request.text)["token"]
+        token = return_request.json()
         session['token'] = token
         return 'Login realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
-        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/entrar'>Tentar novamente</a>"
+        return f"{return_request.status_code} : {return_request.json()}  <br> <a href='/entrar'>Tentar novamente</a>"
  
 @app.route('/cadastrar')
 def cadastrar():
@@ -52,7 +51,7 @@ def create_user():
     if return_request.status_code == 200:
         return 'Cadastro realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
-        return f"{return_request.status_code} : {json.loads(return_request.text)}"
+        return f"{return_request.status_code} : {return_request.json()}"
         
 @app.route('/cadastrar_admin')
 def cadastrar_admin():
@@ -66,7 +65,8 @@ def create_admin():
         "nome" : str(request.form["nome"]),
         "senha" : str(request.form["senha"])
     }
-    headers = {"Authorization": session.get('token')}
+    token = session.get('token')['token'] if session.get('token') != None else None
+    headers = {"Authorization": token}
     return_request = requests.post("http://api-sistemasdistribuidos.onrender.com/admin", json=data, headers=headers)
     if return_request.status_code == 200:
         return 'Cadastro realizado com sucesso. <a href="/">Página Inicial</a>'
@@ -88,7 +88,8 @@ def create_item():
         "contato": request.form["contato"],
         "img": request.form["urlImagem"]
     }
-    headers = {"Authorization": session.get('token')}
+    token = session.get('token')['token'] if session.get('token') != None else None
+    headers = {"Authorization": token}
     return_request = requests.post("http://api-sistemasdistribuidos.onrender.com/item", json=data, headers=headers)
     if return_request.status_code == 200:
         return 'Cadastro de item realizado com sucesso. <a href="/">Página Inicial</a>'
@@ -106,7 +107,8 @@ def excluir_item():
 
 @app.route('/delete_item', methods=["POST"])
 def delete_item():
-    headers = {"Authorization": session.get('token')}
+    token = session.get('token')['token'] if session.get('token') != None else None
+    headers = {"Authorization": token}
     linha_id = request.form.get('linha_id')
     data = {
         "id" : linha_id
@@ -128,7 +130,8 @@ def atualizar_item():
 
 @app.route('/update_item', methods=["POST"])
 def update_item():
-    headers = {"Authorization": session.get('token')}
+    token = session.get('token')['token'] if session.get('token') != None else None
+    headers = {"Authorization": token}
     linha_id = request.form.get('linha_id')
     linha_id_creator = request.form.get('linha_id_creator')
     data = {

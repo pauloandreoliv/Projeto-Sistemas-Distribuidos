@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
-from servico_autenticacao import gerar_token
-from servico_validador import validar_token
 import uuid
+import json
+import requests
 
 app = Flask(__name__)
 
@@ -63,11 +63,12 @@ def get_items():
 @app.route('/item', methods=['POST'])
 def create_items():
     try:
-        authorization_header = request.headers.get('Authorization')
-        token = validar_token(authorization_header)
-        if token:
+        data = request.get_json()
+        token = {"token": request.headers.get("Authorization")}
+        response = requests.get("https://api-sistemasdistribuidos-autenticacao.onrender.com/validar", json=token)
+        if response.status_code == 200:
             id = str(uuid.uuid4())
-            request_completa = request.json
+            request_completa = data
             request_completa["id"] = id
             item_ref.document(id).set(request_completa)
             return jsonify({"success": True}), 200
@@ -81,11 +82,11 @@ def create_items():
 @app.route('/item', methods=['DELETE'])
 def delete_items():
     try:
-        authorization_header = request.headers.get('Authorization')
-        token = validar_token(authorization_header)
-
-        if token and token['cargo'] == "admin":
-                id = request.json['id']
+        data = request.get_json()
+        token = {"token": request.headers.get("Authorization")}
+        response = requests.get("https://api-sistemasdistribuidos-autenticacao.onrender.com/validar", json=token)
+        if response.status_code == 200 and response.json()['cargo'] == "admin":
+                id = data['id']
                 item_ref.document(id).delete()
                 return jsonify({"success": True}), 200
         else:
@@ -98,12 +99,12 @@ def delete_items():
 @app.route('/admin', methods=['POST'])
 def create_admin():
     try:
-        authorization_header = request.headers.get('Authorization')
-        token = validar_token(authorization_header)
-
-        if token and token['cargo'] == "admin":
-            id = request.json['id']
-            request_completa = request.json
+        data = request.get_json()
+        token = {"token": request.headers.get("Authorization")}
+        response = requests.get("https://api-sistemasdistribuidos-autenticacao.onrender.com/validar", json=token)
+        if response.status_code == 200 and response.json()['cargo'] == 'admin':
+            id = data['id']
+            request_completa = data
             request_completa['cargo'] = 'admin'
             user_ref.document(id).set(request_completa)
             return jsonify({"success": True}), 200
@@ -117,10 +118,11 @@ def create_admin():
 @app.route('/item', methods=['PUT'])
 def update_items():
     try:
-        authorization_header = request.headers.get('Authorization')
-        token = validar_token(authorization_header)
-        if token and token['id'] == request.json['id_creator']:
-            id = request.json['id']
+        data = request.get_json()
+        token = {"token": request.headers.get("Authorization")}
+        response = requests.get("https://api-sistemasdistribuidos-autenticacao.onrender.com/validar", json=token)
+        if response.status_code == 200 and response.json()['id'] == data['id_creator']:
+            id = data['id']
             doc = item_ref.document(id).get().to_dict()
             doc["status"] = "encontrado"
             item_ref.document(id).set(doc)
@@ -134,19 +136,12 @@ def update_items():
 @app.route('/login', methods=['POST'])
 def login():
     try:
-        id = request.json['id']
-        senha = request.json['senha']
-        userid_ref = user_ref.document(id)
-        dados = userid_ref.get().to_dict()
-        
-        if dados and dados.get('senha') == senha:
-            id_autenticado = dados.get('cpf')
-            cargo_autenticado = dados.get('cargo')
-
-            token = gerar_token(id_autenticado, cargo_autenticado)
-            return jsonify({"token": token, "cargo": cargo_autenticado}), 200
+        data = request.get_json()
+        return_request = requests.get("https://api-sistemasdistribuidos-autenticacao.onrender.com/autenticar", json=data)        
+        if return_request.status_code == 200:
+            return jsonify(return_request.json()), 200
         else:
-            return jsonify({"error": "Acesso negado. Dados inválidos."}), 401
+            return jsonify(return_request.json()), 401
     except Exception as e:
         erro = f"An Error Occured - {e}"
         return jsonify({"error": erro}), 401
