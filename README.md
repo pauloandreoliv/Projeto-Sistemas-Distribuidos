@@ -1,8 +1,8 @@
-# Projeto Achados e Perdidos - Middleware de Autenticação Distribuída (Sistemas distribuídos)
+# Projeto Sistemas Distribuídos - Middleware e Autenticação Distribuída
 
 ## Visão Geral
 
-Este repositório contém o código-fonte para um projeto desenvolvido como parte da disciplina de Sistemas Distribuídos. O projeto consiste em um sistema de autenticação distribuída com validação de permissões, aplicado no contexto específico de "Achados e Perdidos". O objetivo é facilitar a gestão de itens perdidos e encontrados, garantindo a autenticidade e a autorização adequada para operações específicas. Embora a complexidade desse tipo de aplicação possa não requerer uma distribuição, foi realizada visando a aplicação prática dos conteúdos estudados ao longo da disciplina.
+Este repositório contém o código-fonte para um projeto desenvolvido como parte da disciplina de Sistemas Distribuídos. O projeto consiste em um sistema de autenticação distribuída com validação de permissões. O objetivo é facilitar a gestão de itens perdidos e encontrados, garantindo a autenticidade e a autorização adequada para operações específicas. Embora a complexidade desse tipo de aplicação possa não requerer uma distribuição, foi realizada visando a aplicação prática dos conteúdos estudados ao longo da disciplina.
 
 ## Tecnologias Utilizadas
 
