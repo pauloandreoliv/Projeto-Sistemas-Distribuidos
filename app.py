@@ -32,7 +32,7 @@ def login():
         session['token'] = token
         return 'Login realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
-        return f"{return_request.status_code} : {return_request.json()}  <br> <a href='/entrar'>Tentar novamente</a>"
+        return f"{return_request.status_code} : {return_request.text}  <br> <a href='/entrar'>Tentar novamente</a>"
  
 @app.route('/cadastrar')
 def cadastrar():
@@ -51,7 +51,7 @@ def create_user():
     if return_request.status_code == 200:
         return 'Cadastro realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
-        return f"{return_request.status_code} : {return_request.json()}"
+        return f"{return_request.status_code} : {return_request.text}  <br> <a href='/cadastrar'>Tentar novamente</a>"
         
 @app.route('/cadastrar_admin')
 def cadastrar_admin():
@@ -71,7 +71,7 @@ def create_admin():
     if return_request.status_code == 200:
         return 'Cadastro realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
-        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/entrar'>Fazer login</a>"
+        return f"{return_request.status_code} : {return_request.text}  <br> <a href='/entrar'>Fazer login</a>"
 
 @app.route('/cadastrar_item')
 def cadastrar_item():
@@ -94,7 +94,7 @@ def create_item():
     if return_request.status_code == 200:
         return 'Cadastro de item realizado com sucesso. <a href="/">Página Inicial</a>'
     else:
-        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/entrar'>Fazer login</a>"
+        return f"{return_request.status_code} : {return_request.text} <br> <a href='/entrar'>Fazer login</a>"
 
 @app.route('/excluir_item')
 def excluir_item():
@@ -117,7 +117,7 @@ def delete_item():
     if return_request.status_code == 200:
         return excluir_item()
     else:
-        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/'>Tela inicial</a>"
+        return f"{return_request.status_code} : {return_request.text} <br> <a href='/entrar'>Fazer login</a>"
 
 @app.route('/atualizar_item')
 def atualizar_item():
@@ -142,7 +142,7 @@ def update_item():
     if return_request.status_code == 200:
         return atualizar_item()
     else:
-        return f"{return_request.status_code} : {json.loads(return_request.text)} <br> <a href='/'>Tela inicial</a>"
+        return f"{return_request.status_code} : {return_request.text} <br> <a href='/entrar'>Fazer login</a>"
 
 @app.route('/logout')
 def logout():
