@@ -133,7 +133,7 @@ def update_item():
     token = session.get('token')['token'] if session.get('token') != None else None
     headers = {"Authorization": token}
     linha_id = request.form.get('linha_id')
-    linha_id_creator = request.form.get('linha_id_creator')
+    linha_id_creator = request.form.get('creator')
     data = {
         "id" : linha_id,
         "id_creator" : linha_id_creator

@@ -54,7 +54,6 @@
     <a href="{{ url_for('index') }}"><button id="index" name="index">Inicial</button></a>
     <a href="{{ url_for('logout') }}"><button id="sair" name="sair" type="submit" style="background-color: #af4c4c;">Sair</button></a>
     <h2>Atualizar itens</h2>
-    <form method="POST" action="{{url_for('update_item')}}">
         <table>
             <thead>
                 <tr>
@@ -74,7 +73,6 @@
                 {%else%}
                 <tr style="background-color: #4caf50; color: white;">
                 {%endif%}
-                    <input type="hidden" name="linha_id_creator" value="{{item['id_creator']}}">
                     <td>{{item["id"]}}</td>
                     <td>{{item["nome"]}}</td>
                     <td>{{item["endereco"]}}</td>
@@ -82,7 +80,8 @@
                     <td>{{item["contato"]}}</td>
                     <td><a href="{{item['img']}}" target="_blank">Imagem</a></td>
                     {%if item["status"] != "encontrado"%}
-                    <td><button class="check" type="submit" name="linha_id" value="{{item['id']}}"><i class="fa-solid fa-check"></i></button></td>
+                    <td>
+                        <form method="POST" action="{{url_for('update_item')}}"><input type="hidden" name="creator" value="{{item['id_creator']}}"><button class="check" type="submit" name="linha_id" value="{{item['id']}}"><i class="fa-solid fa-check"></i></button></form></td>
                     {%else%}
                     <td>ENCONTRADO</td>
                     {%endif%}
@@ -90,6 +89,5 @@
                 {%endfor%}
             </tbody>
         </table>
-    </form>
 </body>
 </html>
